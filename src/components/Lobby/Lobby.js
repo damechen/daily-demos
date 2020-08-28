@@ -41,13 +41,10 @@ class Lobby extends React.Component {
 
     const { meetingRoom } = this.state;
 
-    this.props.joinRoom(meetingRoom);
-    return;
-
     const meetupHashRef = await firebase
       .database()
       .ref('meetup-hashtable')
-      .child(this.state.meetingRoom)
+      .child(meetingRoom)
       .once('value');
 
     if (!meetupHashRef.val()) {
@@ -69,6 +66,8 @@ class Lobby extends React.Component {
       this.setState({ error: "You haven't signed up this meetup 😂" });
       return;
     }
+
+    this.props.joinRoom(meetingRoom);
   };
 
   setShowLogin = (showLogin) => {
@@ -105,10 +104,7 @@ class Lobby extends React.Component {
 
             <div className="mt-8">
               <div className="mt-6">
-                <form
-                  className="space-y-6"
-                  onSubmit={this.handleJoinMeetup(currentUser)}
-                >
+                <div className="space-y-6">
                   <div>
                     <label className="block text-lg font-medium leading-5 text-gray-700 mb-2">
                       Meetup ID
@@ -130,7 +126,7 @@ class Lobby extends React.Component {
                       </label>
                     )}
                   </div>
-                </form>
+                </div>
                 <span className="block w-full rounded-md shadow-sm mt-2">
                   {currentUser ? (
                     <button

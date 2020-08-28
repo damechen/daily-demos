@@ -57,7 +57,7 @@ export default function App() {
       url,
       userName: 'Damon C',
     });
-    // newCallObject.setShowNamesMode('always');
+    newCallObject.setShowNamesMode('always');
   }, []);
 
   /**
