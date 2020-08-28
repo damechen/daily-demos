@@ -21,7 +21,6 @@ const STATE_ERROR = 'STATE_ERROR';
 export default function App() {
   const [appState, setAppState] = useState(STATE_IDLE);
   const [roomUrl, setRoomUrl] = useState(null);
-  const [roomId, setRoomId] = useState('');
   const [callObject, setCallObject] = useState(null);
 
   /**
@@ -78,13 +77,6 @@ export default function App() {
     const url = roomUrlFromPageUrl();
     url && startJoiningCall(url);
   }, [startJoiningCall]);
-
-  /**
-   * Update the room Id
-   */
-  useEffect(() => {
-    console.log('room Id changed', roomId);
-  }, [roomId]);
 
   /**
    * Update the page's URL to reflect the active call when roomUrl changes.

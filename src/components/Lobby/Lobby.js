@@ -39,7 +39,9 @@ class Lobby extends React.Component {
   handleJoinMeetup = () => async () => {
     this.setState({ error: '' });
 
-    this.props.joinRoom('meetup-01');
+    const { meetingRoom } = this.state;
+
+    this.props.joinRoom(meetingRoom);
     return;
 
     const meetupHashRef = await firebase
@@ -103,7 +105,10 @@ class Lobby extends React.Component {
 
             <div className="mt-8">
               <div className="mt-6">
-                <form className="space-y-6">
+                <form
+                  className="space-y-6"
+                  onSubmit={this.handleJoinMeetup(currentUser)}
+                >
                   <div>
                     <label className="block text-lg font-medium leading-5 text-gray-700 mb-2">
                       Meetup ID
