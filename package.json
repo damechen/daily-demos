@@ -1,35 +1,44 @@
 {
-  "name": "daily-demos",
+  "name": "react-demo",
   "version": "0.1.0",
-  "description": "Demo projects showcasing usage of daily-js",
-  "scripts": {
-    "start": "concurrently npm:index-start npm:static-demos-start npm:react-demo-start",
-    "dev": "concurrently npm:index-dev npm:static-demos-dev npm:react-demo-dev",
-    "postinstall": "npm run static-demos-install && npm run react-demo-install",
-    "index-start": "node index.js",
-    "index-dev": "nodemon index.js",
-    "static-demos-start": "cd static-demos && npm run start",
-    "static-demos-dev": "cd static-demos && npm run dev",
-    "static-demos-install": "cd static-demos && npm i",
-    "react-demo-start": "cd react-demo && npm run build && npm run start",
-    "react-demo-dev": "cd react-demo && npm run dev",
-    "react-demo-install": "cd react-demo && npm i"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/daily-co/daily-demos.git"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/daily-co/daily-demos/issues"
-  },
-  "homepage": "https://github.com/daily-co/daily-demos#readme",
+  "private": true,
   "dependencies": {
-    "concurrently": "^5.1.0",
-    "express": "^4.17.1",
-    "http-proxy-middleware": "^1.0.0"
+    "@daily-co/daily-js": "^0.9.992",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "bootstrap": "^4.5.2",
+    "firebase": "^7.19.1",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.0",
+    "react-bootstrap": "^1.3.0",
+    "react-dom": "^16.13.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.0",
+    "react-spinners": "^0.9.0",
+    "react-toastify": "^6.0.8",
+    "semantic-ui-react": "^1.2.1",
+    "serve": "^11.3.0"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
+  "scripts": {
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
