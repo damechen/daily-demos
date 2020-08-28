@@ -36,8 +36,12 @@ class Lobby extends React.Component {
     this.setState({ meetingRoom: event.target.value });
   };
 
-  handleSubmit = () => async () => {
+  handleJoinMeetup = () => async () => {
     this.setState({ error: '' });
+
+    this.props.joinRoom('meetup-01');
+    return;
+
     const meetupHashRef = await firebase
       .database()
       .ref('meetup-hashtable')
@@ -46,7 +50,6 @@ class Lobby extends React.Component {
 
     if (!meetupHashRef.val()) {
       this.setState({ error: 'Invalid meetup id' });
-      console.log('invalid id');
       return;
     }
 
@@ -126,7 +129,7 @@ class Lobby extends React.Component {
                 <span className="block w-full rounded-md shadow-sm mt-2">
                   {currentUser ? (
                     <button
-                      onClick={this.handleSubmit(currentUser)}
+                      onClick={this.handleJoinMeetup(currentUser)}
                       className="w-full flex justify-center py-2 px-4 border border-transparent text-lg font-bold rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition duration-150 ease-in-out"
                     >
                       Join now

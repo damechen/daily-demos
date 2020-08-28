@@ -21,15 +21,16 @@ const STATE_ERROR = 'STATE_ERROR';
 export default function App() {
   const [appState, setAppState] = useState(STATE_IDLE);
   const [roomUrl, setRoomUrl] = useState(null);
+  const [roomId, setRoomId] = useState('');
   const [callObject, setCallObject] = useState(null);
 
   /**
    * Creates a new call room.
    */
-  const createCall = useCallback(() => {
+  const createCall = useCallback(({ roomId }) => {
     setAppState(STATE_CREATING);
     return api
-      .createRoom()
+      .createRoom(roomId)
       .then((room) => room.url)
       .catch((error) => {
         console.log('Error creating room', error);
@@ -48,11 +49,16 @@ export default function App() {
    * events.
    */
   const startJoiningCall = useCallback((url) => {
+    console.log('url', url);
     const newCallObject = DailyIframe.createCallObject();
     setRoomUrl(url);
     setCallObject(newCallObject);
     setAppState(STATE_JOINING);
-    newCallObject.join({ url });
+    newCallObject.join({
+      url,
+      userName: 'Damon C',
+    });
+    // newCallObject.setShowNamesMode('always');
   }, []);
 
   /**
@@ -72,6 +78,13 @@ export default function App() {
     const url = roomUrlFromPageUrl();
     url && startJoiningCall(url);
   }, [startJoiningCall]);
+
+  /**
+   * Update the room Id
+   */
+  useEffect(() => {
+    console.log('room Id changed', roomId);
+  }, [roomId]);
 
   /**
    * Update the page's URL to reflect the active call when roomUrl changes.
@@ -200,7 +213,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <Topbar />
       {showCall ? (
         // NOTE: for an app this size, it's not obvious that using a Context
         // is the best choice. But for larger apps with deeply-nested components
@@ -214,13 +226,14 @@ export default function App() {
           />
         </CallObjectContext.Provider>
       ) : (
-        // <StartButton
-        //   disabled={!enableStartButton}
-        //   onClick={() => {
-        //     createCall().then((url) => startJoiningCall(url));
-        //   }}
-        // />
-        <Lobby />
+        <>
+          <Topbar />
+          <Lobby
+            joinRoom={(roomId) => {
+              createCall({ roomId }).then((url) => startJoiningCall(url));
+            }}
+          />
+        </>
       )}
     </div>
   );
