@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import { isBefore, parseISO } from 'date-fns';
 import LoginModal from '../LoginModal/LoginModal';
 
 class Lobby extends React.Component {
@@ -42,20 +43,29 @@ class Lobby extends React.Component {
 
     const { meetingRoom } = this.state;
 
-    const meetupHashRef = await firebase
+    const meetupRoomRef = await firebase
       .database()
-      .ref('meetup-hashtable')
+      .ref('meetup-rooms')
       .child(meetingRoom)
       .once('value');
 
-    if (!meetupHashRef.val()) {
-      this.setState({ error: 'Invalid meetup id' });
+    if (!meetupRoomRef.val()) {
+      this.setState({ error: 'Invalid meetup id 🙁' });
       return;
     }
 
     this.props.setRoomId(meetingRoom);
 
-    const meetupURL = meetupHashRef.val().meetupURL;
+    const meetupURL = meetupRoomRef.val().meetupURL;
+    const meetingTime = meetupRoomRef.val().meetingTime;
+
+    // if login a day before, prompt the error message
+    var dateISO = parseISO(meetingTime);
+    if (isBefore(Date.now(), dateISO)) {
+      console.log('now', Date.now(), 'meeting date', dateISO);
+      this.setState({ error: "You're too early to join 😅" });
+      return;
+    }
 
     const attendeeRef = await firebase
       .database()
