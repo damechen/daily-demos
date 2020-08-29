@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import Lobby from '../Lobby/Lobby';
 import Topbar from '../Topbar/Topbar';
 
 import './App.css';
 import VideoCallFrame from '../VideoCallFrame/VideoCallFrame';
+
+toast.configure();
 
 export default function App() {
   const [userValidated, setUserValidated] = useState(false);
