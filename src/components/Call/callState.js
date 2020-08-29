@@ -128,6 +128,7 @@ function getMessage(callState) {
   let header = null;
   let detail = null;
   let isError = false;
+  let emoji = '👋';
   if (callState.fatalError) {
     header = `Fatal error: ${callState.fatalError}`;
     isError = true;
@@ -139,10 +140,10 @@ function getMessage(callState) {
   } else if (shouldShowClickAllow()) {
     header = 'Click "Allow" to enable camera and mic access';
   } else if (Object.keys(callState.callItems).length === 1) {
-    header = "Copy and share this page's URL to invite others";
-    detail = window.location.href;
+    header = "You're here!";
+    detail = 'Waiting for other person to join...';
   }
-  return header || detail ? { header, detail, isError } : null;
+  return header || detail ? { emoji, header, detail, isError } : null;
 }
 
 export {

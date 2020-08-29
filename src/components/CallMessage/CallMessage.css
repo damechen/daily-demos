@@ -16,6 +16,10 @@
   background-color: #ffffff;
 }
 
+.call-mesage-emoji {
+  font-size: 24px;
+}
 .call-message-header {
   font-weight: bold;
+  margin-bottom: 0.3rem;
 }

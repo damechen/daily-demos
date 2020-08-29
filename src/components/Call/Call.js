@@ -177,6 +177,7 @@ export default function Call() {
       <div className="small-tiles">{smallTiles}</div>
       {message && (
         <CallMessage
+          emoji={message.emoji}
           header={message.header}
           detail={message.detail}
           isError={message.isError}
