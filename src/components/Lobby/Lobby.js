@@ -25,6 +25,7 @@ class Lobby extends React.Component {
           .child(user.uid)
           .on('value', (snapshot) => {
             this.setState({ currentUser: snapshot.val() });
+            this.props.setCurentUser(snapshot.val());
           });
       } else {
         this.setState({ currentUser: null });
@@ -52,6 +53,8 @@ class Lobby extends React.Component {
       return;
     }
 
+    this.props.setRoomId(meetingRoom);
+
     const meetupURL = meetupHashRef.val().meetupURL;
 
     const attendeeRef = await firebase
@@ -67,7 +70,7 @@ class Lobby extends React.Component {
       return;
     }
 
-    this.props.joinRoom(meetingRoom);
+    this.props.setUserValidated(true);
   };
 
   setShowLogin = (showLogin) => {
