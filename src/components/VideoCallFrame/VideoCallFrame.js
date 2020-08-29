@@ -18,8 +18,10 @@ class VideoCallFrame extends React.Component {
     this.daily = DailyIframe.wrap(this.iframeRef.current, {
       showLeaveButton: true,
     });
-    // this.daily.setShowNamesMode('always');
+
     this.daily.join({ url: this.props.url, userName: user.displayName });
+    this.daily.setShowNamesMode('always');
+
     this.daily.on('left-meeting', (event) => {
       setUserValidated(false);
     });
