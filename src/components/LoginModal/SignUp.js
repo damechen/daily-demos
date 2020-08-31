@@ -176,25 +176,25 @@ function SignUp(props) {
           uid: userUid,
           createdAt: Date.now(),
         });
+      }
 
-        var userSignIn = await firebase.functions().httpsCallable('userSignIn');
-        const token = await userSignIn({
-          userUid: response.user.uid,
+      var userSignIn = await firebase.functions().httpsCallable('userSignIn');
+      const token = await userSignIn({
+        userUid: response.user.uid,
+      });
+
+      if (cookieDomain) {
+        Cookies.set('_fb_uid', response.user.uid, {
+          path: '',
+          domain: cookieDomain,
         });
-
-        if (cookieDomain) {
-          Cookies.set('_fb_uid', response.user.uid, {
-            path: '',
-            domain: cookieDomain,
-          });
-          Cookies.set('_fb_token', token.data, {
-            path: '',
-            domain: cookieDomain,
-          });
-        } else {
-          Cookies.set('_fb_uid', response.user.uid);
-          Cookies.set('_fb_token', token.data);
-        }
+        Cookies.set('_fb_token', token.data, {
+          path: '',
+          domain: cookieDomain,
+        });
+      } else {
+        Cookies.set('_fb_uid', response.user.uid);
+        Cookies.set('_fb_token', token.data);
       }
 
       setIsLoading(false);
@@ -333,8 +333,6 @@ function SignUp(props) {
         Cookies.set('_fb_uid', response.user.uid);
         Cookies.set('_fb_token', token.data);
       }
-
-      window.location.reload();
     } catch (error) {
       // Handle Errors here.
       var errorCode = error.code || '';
