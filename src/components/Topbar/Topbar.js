@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { Modal } from 'react-bootstrap';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -6,16 +7,30 @@ import 'firebase/database';
 import { Dropdown, Image, Icon } from 'semantic-ui-react';
 import LoginModal from '../LoginModal/LoginModal';
 
+const hostURL = window.location.host.split('.').reverse();
+const cookieDomain =
+  hostURL.length > 1 ? '.' + hostURL[1] + '.' + hostURL[0] : null;
+
 function onAuthStateChange(callback) {
   return firebase.auth().onAuthStateChanged(async (user) => {
+    const _fb_token = Cookies.get('_fb_token');
     if (user) {
-      await firebase
-        .database()
-        .ref('users')
-        .child(user.uid)
-        .on('value', (snapshot) => {
-          callback(snapshot.val());
-        });
+      if (!_fb_token) {
+        await firebase
+          .auth()
+          .signOut()
+          .catch((error) => {
+            return;
+          });
+      } else {
+        await firebase
+          .database()
+          .ref('users')
+          .child(user.uid)
+          .on('value', (snapshot) => {
+            callback(snapshot.val());
+          });
+      }
     } else {
       callback(null);
     }
@@ -94,6 +109,15 @@ function Topbar(props) {
   const onSignOut = async () => {
     const userUid = currentUser.uid;
     try {
+      // remove cookies first
+      if (cookieDomain) {
+        Cookies.remove('_fb_uid', { path: '', domain: cookieDomain });
+        Cookies.remove('_fb_token', { path: '', domain: cookieDomain });
+      } else {
+        Cookies.remove('_fb_uid');
+        Cookies.remove('_fb_token');
+      }
+
       await firebase.auth().signOut();
       setCurrentUser(null);
     } catch (error) {

@@ -34,7 +34,7 @@ export default function Call() {
     ];
 
     function handleNewParticipantsState(event) {
-      event && logDailyEvent(event);
+      //event && logDailyEvent(event);
       dispatch({
         type: PARTICIPANTS_CHANGE,
         participants: callObject.participants(),
@@ -64,7 +64,7 @@ export default function Call() {
     if (!callObject) return;
 
     function handleCameraErrorEvent(event) {
-      logDailyEvent(event);
+      //logDailyEvent(event);
       dispatch({
         type: CAM_OR_MIC_ERROR,
         message:
@@ -89,7 +89,7 @@ export default function Call() {
     if (!callObject) return;
 
     function handleErrorEvent(e) {
-      logDailyEvent(e);
+      //logDailyEvent(e);
       dispatch({
         type: FATAL_ERROR,
         message: (e && e.errorMsg) || 'Unknown',
