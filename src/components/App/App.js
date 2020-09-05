@@ -10,6 +10,7 @@ toast.configure();
 
 export default function App() {
   const [userValidated, setUserValidated] = useState(false);
+  const [attendees, setAttendees] = useState(null);
   const [roomId, setRoomId] = useState('');
   const [currentUser, setCurentUser] = useState(null);
 
@@ -20,6 +21,7 @@ export default function App() {
           user={currentUser}
           url={'https://indielog.daily.co/' + roomId}
           setUserValidated={setUserValidated}
+          attendees={attendees}
         ></VideoCallFrame>
       ) : (
         <>
@@ -28,6 +30,7 @@ export default function App() {
             setCurentUser={setCurentUser}
             setRoomId={setRoomId}
             setUserValidated={setUserValidated}
+            setAttendees={setAttendees}
           />
         </>
       )}

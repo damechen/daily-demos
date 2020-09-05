@@ -95,10 +95,10 @@ class Lobby extends React.Component {
 
     // if login a day before, prompt the error message
     var dateISO = parseISO(meetingTime);
-    if (isBefore(Date.now(), dateISO)) {
-      this.setState({ error: "You're too early to join 😅" });
-      return;
-    }
+    // if (isBefore(Date.now(), dateISO)) {
+    //   this.setState({ error: "You're too early to join 😅" });
+    //   return;
+    // }
 
     const attendeeRef = await firebase
       .database()
@@ -113,7 +113,15 @@ class Lobby extends React.Component {
       return;
     }
 
+    const allAttendees = await firebase
+      .database()
+      .ref('meetups')
+      .child(meetupURL)
+      .child('attendees')
+      .once('value');
+
     this.props.setUserValidated(true);
+    this.props.setAttendees(allAttendees.val());
   };
 
   setShowLogin = (showLogin) => {
