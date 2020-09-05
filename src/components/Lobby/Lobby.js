@@ -95,7 +95,7 @@ class Lobby extends React.Component {
 
     // if login a day before, prompt the error message
     var dateISO = parseISO(meetingTime);
-    if (isBefore(Date.now(), dateISO)) {
+    if (isBefore(Date.now() + 600000, dateISO)) {
       this.setState({ error: "You're too early to join 😅" });
       return;
     }
