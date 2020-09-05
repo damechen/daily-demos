@@ -33,7 +33,7 @@ class VideoCallFrame extends React.Component {
 
     return (
       <Row className="full-width-height">
-        <Col lg={8} className="full-width-height pr-0">
+        <Col lg={10} className="full-width-height pr-0">
           <iframe
             className="full-width-height"
             title="IndieLog virtual meetup"
@@ -41,7 +41,7 @@ class VideoCallFrame extends React.Component {
             allow="camera; microphone; fullscreen"
           ></iframe>
         </Col>
-        <Col lg={4} className="px-0 video-chat-right-col">
+        <Col lg={2} className="px-0 video-chat-right-col">
           <h2 className="font-bold px-8 py-4 mb-0">Attendees</h2>
 
           <hr className="mt-0" />
@@ -65,7 +65,7 @@ class VideoCallFrame extends React.Component {
                                 alt=""
                               />
                             </div>
-                            <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                            <div class="min-w-0 flex-1 px-4 ">
                               <div>
                                 <div class="text-lg leading-5 font-medium text-indigo-600 truncate">
                                   {attendee.name}
