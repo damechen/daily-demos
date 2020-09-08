@@ -3,7 +3,6 @@ import { Modal } from 'react-bootstrap';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import Cookies from 'js-cookie';
 import { isBefore, parseISO } from 'date-fns';
 import LoginModal from '../LoginModal/LoginModal';
 
@@ -20,34 +19,17 @@ class Lobby extends React.Component {
 
   componentDidMount = () => {
     firebase.auth().onAuthStateChanged(async (user) => {
-      const _fb_token = Cookies.get('_fb_token');
       if (user) {
-        // if token is removed, sign out the user
-        if (!_fb_token) {
-          await firebase
-            .auth()
-            .signOut()
-            .catch((error) => {
-              return;
-            });
-          this.setState({ currentUser: null });
-          this.props.setUserValue({ currentUser: null });
-        } else {
-          await firebase
-            .database()
-            .ref('users')
-            .child(user.uid)
-            .on('value', (snapshot) => {
-              this.setState({ currentUser: snapshot.val() });
-              this.props.setCurentUser(snapshot.val());
-            });
-        }
+        await firebase
+          .database()
+          .ref('users')
+          .child(user.uid)
+          .on('value', (snapshot) => {
+            this.setState({ currentUser: snapshot.val() });
+            this.props.setCurentUser(snapshot.val());
+          });
       } else {
-        if (_fb_token && _fb_token !== 'init') {
-          this.onSignInWithToken(_fb_token);
-        } else {
-          this.setState({ currentUser: null });
-        }
+        this.setState({ currentUser: null });
       }
     });
   };

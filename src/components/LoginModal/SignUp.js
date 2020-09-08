@@ -5,7 +5,6 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
 import 'firebase/functions';
-import Cookies from 'js-cookie';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import googleLogo from './assets/google.svg';
@@ -48,20 +47,6 @@ function SignUp(props) {
     try {
       handleSetShowLogin(false);
 
-      if (cookieDomain) {
-        Cookies.set('_fb_uid', 'init', {
-          path: '',
-          domain: cookieDomain,
-        });
-        Cookies.set('_fb_token', 'init', {
-          path: '',
-          domain: cookieDomain,
-        });
-      } else {
-        Cookies.set('_fb_uid', 'init');
-        Cookies.set('_fb_token', 'init');
-      }
-
       const response = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
@@ -74,20 +59,6 @@ function SignUp(props) {
       const token = await userSignIn({
         userUid: response.user.uid,
       });
-
-      if (cookieDomain) {
-        Cookies.set('_fb_uid', response.user.uid, {
-          path: '',
-          domain: cookieDomain,
-        });
-        Cookies.set('_fb_token', token.data, {
-          path: '',
-          domain: cookieDomain,
-        });
-      } else {
-        Cookies.set('_fb_uid', response.user.uid);
-        Cookies.set('_fb_token', token.data);
-      }
 
       setIsLoading(false);
     } catch (error) {
@@ -124,20 +95,6 @@ function SignUp(props) {
 
     try {
       handleSetShowLogin(false);
-
-      if (cookieDomain) {
-        Cookies.set('_fb_uid', 'init', {
-          path: '',
-          domain: cookieDomain,
-        });
-        Cookies.set('_fb_token', 'init', {
-          path: '',
-          domain: cookieDomain,
-        });
-      } else {
-        Cookies.set('_fb_uid', 'init');
-        Cookies.set('_fb_token', 'init');
-      }
 
       const response = await firebase
         .auth()
@@ -182,20 +139,6 @@ function SignUp(props) {
       const token = await userSignIn({
         userUid: response.user.uid,
       });
-
-      if (cookieDomain) {
-        Cookies.set('_fb_uid', response.user.uid, {
-          path: '',
-          domain: cookieDomain,
-        });
-        Cookies.set('_fb_token', token.data, {
-          path: '',
-          domain: cookieDomain,
-        });
-      } else {
-        Cookies.set('_fb_uid', response.user.uid);
-        Cookies.set('_fb_token', token.data);
-      }
 
       setIsLoading(false);
     } catch (error) {
@@ -246,20 +189,6 @@ function SignUp(props) {
 
     try {
       handleSetShowLogin(false);
-
-      if (cookieDomain) {
-        Cookies.set('_fb_uid', 'init', {
-          path: '',
-          domain: cookieDomain,
-        });
-        Cookies.set('_fb_token', 'init', {
-          path: '',
-          domain: cookieDomain,
-        });
-      } else {
-        Cookies.set('_fb_uid', 'init');
-        Cookies.set('_fb_token', 'init');
-      }
 
       const response = await firebase.auth().signInWithPopup(provider);
 
@@ -318,21 +247,6 @@ function SignUp(props) {
       const token = await userSignIn({
         userUid: response.user.uid,
       });
-
-      // update cookies
-      if (cookieDomain) {
-        Cookies.set('_fb_uid', response.user.uid, {
-          path: '',
-          domain: cookieDomain,
-        });
-        Cookies.set('_fb_token', token.data, {
-          path: '',
-          domain: cookieDomain,
-        });
-      } else {
-        Cookies.set('_fb_uid', response.user.uid);
-        Cookies.set('_fb_token', token.data);
-      }
     } catch (error) {
       // Handle Errors here.
       var errorCode = error.code || '';
